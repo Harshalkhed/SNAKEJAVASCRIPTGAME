@@ -1,0 +1,185 @@
+<html>
+    <body>
+        <canvas id="My Game Space" width="700" height="700" ></canvas>
+            <script>
+                
+                var g_Canvas = document.getElementById("My Game Space");
+                var g_Context = g_Canvas.getContext("2d");
+                
+                var g_FrameRate = 30;
+                var g_TravelInterval = 1000/g_FrameRate;
+                
+              
+                
+                 class C_Node
+                    {
+                        constructor(l_x,l_y,l_s)
+                        {
+                            this.Xpos = l_x;
+                            this.Ypos = l_y;
+                            this.Size = l_s;
+                            
+                        }
+                        
+                        M_Draw(l_Context)
+                        {
+                            l_Context.strokeStyle = "green";
+                            
+                            l_Context.strokeRect(this.Xpos,this.Ypos,this.Size,this.Size);
+                           
+                        }
+                     }
+                
+               
+                
+                class C_Snake
+                {
+                     constructor(l_x,l_y,l_s)
+                        {
+                            this.snakeHeadXpos = l_x;
+                            this.snakeHeadYpos = l_y;
+                            this.snakeHeadSize = l_s;
+                            this.snakeLength = 10;
+                            this.SnakeArray = [];
+                            this.MovesnakeLeftFlag = 0;
+                            this.MovesnakeUpFlag = 0;
+                            this.MovesnakeRightFlag = 0;
+                            this.MovesnakeDownFlag = 0;
+                
+                        }
+                    
+                    M_Create()
+                    {
+                        var l_X = this.snakeHeadXpos;
+                        for(var i = 0; i< this.snakeLength; i++)
+                        {
+                            this.SnakeArray[i] = new C_Node(l_X,this.snakeHeadYpos,this.snakeHeadSize);
+                            l_X += this.snakeHeadSize;
+                        }
+                    }
+                    M_Draw(l_Context)
+                    {
+                        for(var i = 0; i < this.snakeLength; i++)
+                            {
+                                this.SnakeArray[i].M_Draw(l_Context);
+                            }
+                    }
+                    
+                    M_Movesnake()
+                    {
+                        
+                        if(this.MovesnakeLeftFlag == 1)
+                            {
+                                this.snakeHeadXpos -= this.snakeSpeed;
+                                console.log("is clicked");
+                            }
+                        if(this.MovesnakeUpFlag == 1)
+                            {
+                                this.snakeHeadXpos -= this.snakeSpeed;
+                                 console.log("is clicked");
+                            }
+                        if(this.MovesnakeRightFlag == 1)
+                            {
+                                this.snakeHeadXpos += this.snakeSpeed;
+                                 console.log("is clicked");
+                            }
+                        if(this.MovesnakeDownFlag == 1)
+                            {
+                                this.snakeHeadXpos += this.snakeSpeed;
+                                 console.log("is clicked");
+                            }
+                    }
+                    
+                    
+                }
+                
+                
+                
+          
+                function f_ClerScreen()
+                {
+                    
+                    g_Context.clearRect(0,0,g_Canvas.width,g_Canvas.height);
+
+                    g_Context.strokeRect(0,0,g_Canvas.width,g_Canvas.height);
+                  
+                }
+                
+                
+                
+              
+                
+                function f_GameLoop()
+                {
+                  
+                     g_Snake_1.M_Movesnake();
+                    
+                    //clearScreen
+                    f_ClerScreen();
+                    
+                    
+                    g_Snake_1.M_Draw(g_Context);
+                    
+                     //g_Snake_2.M_Draw(g_Context);
+             
+                }
+                
+                function f_KeyDownEventHandeler(l_Event)
+                {
+                    if(l_Event.keyCode == 37)
+                        {
+                            g_Snake_1.MovesnakeLeftFlag = 1;
+                        }
+                    if(l_Event.keyCode == 38)
+                        {
+                            g_Snake_1.MovesnakeUpFlag = 1;
+                        }
+                    if(l_Event.keyCode == 39)
+                        {
+                            g_Snake_1.MovesnakeRightFlag = 1;
+                        }
+                    if(l_Event.keyCode == 40)
+                        {
+                            g_Snake_1.MovesnakeDownFlag = 1;
+                        }
+                }
+                
+                function f_KeyUpEventHandeler(l_Event)
+                {
+                    if(l_Event.keyCode == 37)
+                        {
+                            g_Snake_1.MovesnakeLeftFlag = 0;
+                        }
+                    if(l_Event.keyCode == 38)
+                        {
+                            g_Snake_1.MovesnakeUpFlag = 0;
+                        }
+                    if(l_Event.keyCode == 39)
+                        {
+                            g_Snake_1.MovesnakeRightFlag = 0;
+                        }
+                    if(l_Event.keyCode == 40)
+                        {
+                            g_Snake_1.MovesnakeDownFlag = 0;
+                        }
+                }
+             
+                
+                var g_Snake_1 = new C_Snake(100,100,30);
+                g_Snake_1.M_Create();
+                
+                var g_Snake_2 = new C_Snake(100,400,50);
+                g_Snake_2.M_Create();
+                
+               
+                var SetIntervalID = setInterval(f_GameLoop,g_TravelInterval);
+                
+                window.addEventListener("keydown",f_KeyDownEventHandeler);
+                window.addEventListener("keyup",f_KeyUpEventHandeler);
+                
+                
+              
+                
+            </script>
+    </body>
+</html>
